@@ -25,6 +25,7 @@ function filterAndDisplay($array, $filterParams) {
     echo "</table>";
 }
 
+
 function matchesFilter($item, $filterParams) {
     foreach ($filterParams as $key => $value) {
         if (!empty($value) && $item[$key] != $value) {
@@ -34,11 +35,29 @@ function matchesFilter($item, $filterParams) {
     return true;
 }
 
+
 function validateData($data) {
+
     if (empty($data["Ім'я"]) || empty($data["Країна"]) || $data["Вік"] < 0 || $data["Зарплата"] < 0) {
         return false;
     }
     return true;
+}
+
+
+function saveToFile($filename, $array) {
+    $data = json_encode($array);
+    file_put_contents($filename, $data);
+}
+
+
+function loadFromFile($filename) {
+    if (file_exists($filename)) {
+        $data = file_get_contents($filename);
+        return json_decode($data, true);
+    } else {
+        return array();
+    }
 }
 
 ?>
